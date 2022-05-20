@@ -1,13 +1,10 @@
-
-
-Global / onChangedBuildSource := ReloadOnSourceChanges
-
-lazy val hello = (project in file("."))
-  .settings(
-    name := "roguelike",
-    scalaVersion := "2.13.8",
-
-    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.10" % Test,
-    scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature"),
+lazy val root = (project in file(".")).
+  settings(
+    inThisBuild(List(
+      organization := "com.example",
+      scalaVersion := "2.13.6"
+    )),
+    name := "scalatest-example"
   )
 
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % Test
