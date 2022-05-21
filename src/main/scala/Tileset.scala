@@ -1,6 +1,16 @@
 
 class Image (width: Int, height: Int) {
-  def display() = {
+  val content = Array.ofDim[Char](width, height)
+
+  def init(): Unit = {
+    for(x <- 0 until width){
+      for(y <- 0 until height){
+        content(x)(y) = ' '
+      }
+    }
+  }
+
+  def display(): Unit = {
     var data: String = ""
     val h = 0x2501.toChar.toString
     val v = 0x2503.toChar.toString
