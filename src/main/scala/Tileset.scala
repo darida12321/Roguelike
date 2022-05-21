@@ -7,6 +7,26 @@ class Image (width: Int, height: Int) {
     }
   }
 
+
+  def pointInside(x: Int, y: Int): Boolean = {
+    0 <= x && x < width && 0 <= y && y < height
+  }
+  def setChar(x: Int, y: Int, c: Char): Boolean = {
+    if (pointInside(x, y)) {
+      content(x)(y) = c
+      true
+    }else{
+      false
+    }
+  }
+  def getChar(x: Int, y: Int): Char = {
+    if (pointInside(x, y)) {
+      content(x)(y)
+    }else{
+      throw new IndexOutOfBoundsException(s"Index ($x, $y) is out of bounds for image of size ($width, $height)")
+    }
+  }
+
   def display(): Unit = {
     var data: String = ""
     val h = 0x2501.toChar.toString
