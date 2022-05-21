@@ -1,12 +1,17 @@
 
 class Image (width: Int, height: Int) {
+  //TODO colour
+  //TODO sprites
   val content = Array.ofDim[Char](width, height)
-  for(x <- 0 until width){
-    for(y <- 0 until height){
-      content(x)(y) = '.'
+  clear(' ')
+
+  def clear(c: Char): Unit = {
+    for(x <- 0 until width){
+      for(y <- 0 until height){
+        content(x)(y) = c
+      }
     }
   }
-
 
   def pointInside(x: Int, y: Int): Boolean = {
     0 <= x && x < width && 0 <= y && y < height
@@ -26,6 +31,7 @@ class Image (width: Int, height: Int) {
       throw new IndexOutOfBoundsException(s"Index ($x, $y) is out of bounds for image of size ($width, $height)")
     }
   }
+
 
   def display(): Unit = {
     var data: String = ""
