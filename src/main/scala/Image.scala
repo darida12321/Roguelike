@@ -1,6 +1,5 @@
 
-class Image (width: Int, height: Int) {
-  //TODO colour
+class Image(width: Int, height: Int) {
   //TODO sprites
   val content = Array.ofDim[Char](width, height)
   val colour = Array.ofDim[String](width, height)

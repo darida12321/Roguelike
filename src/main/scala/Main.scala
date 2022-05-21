@@ -4,5 +4,9 @@ object Main extends App {
   img.clear('?')
   img.setChar(1, 2, 'a')
   img.setChar(1, 3, 'r', Console.RED)
-  img.display()
+  //img.display()
+
+  val spr = new Sprite(15, 5)
+  spr.clear('H')
+  spr.display()
 }
