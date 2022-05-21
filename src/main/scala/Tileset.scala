@@ -1,0 +1,17 @@
+
+class Image (width: Int, height: Int) {
+  def display() = {
+    var data: String = ""
+    val h = 0x2501.toChar.toString
+    val v = 0x2503.toChar.toString
+    val tl = 0x250f.toChar.toString
+    val tr = 0x2513.toChar.toString
+    val bl = 0x2517.toChar.toString
+    val br = 0x251b.toChar.toString
+
+    data += tl + h*width + tr + "\n"
+    data += (v + " "*width + v + "\n") * height 
+    data += bl + h*width + br + "\n"
+    print(data)
+  }
+}
