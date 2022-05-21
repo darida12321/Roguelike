@@ -36,6 +36,22 @@ class Image(width: Int, height: Int) {
     }
   }
 
+  def drawSpr(x: Int, y: Int, spr: Sprite): Boolean = {
+    val w = spr.width
+    val h = spr.height
+    if (pointInside(x, y) && pointInside(x+w, y+h)) {
+      for(xx <- 0 until w){
+        for(yy <- 0 until h){
+          content(x+xx)(y+yy) = spr.getContent(xx, yy)
+          //colour(x)(y) = col
+        }
+      }
+      true
+    }else{
+      false
+    }
+  }
+
 
   def display(): Unit = {
     var data: String = ""

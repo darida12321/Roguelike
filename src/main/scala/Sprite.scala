@@ -1,27 +1,23 @@
 
-class Sprite(width: Int, height: Int) {
-  val content = Array.ofDim[Char](width, height)
-  val colour = Array.ofDim[String](width, height)
-
-  def clear(c: Char): Unit = clear(c, Console.RESET)
-  def clear(c: Char, col: String): Unit = {
-    for(x <- 0 until width){
-      for(y <- 0 until height){
-        content(x)(y) = c
-        colour(x)(y) = col
-      }
+class Sprite(str: String) {
+  val lines = str.split("\n")
+  for(line <- lines){
+    if(line.length != lines(0).length){
+      throw new Exception(s"Sprite string is not a rectangle for \n$str")
     }
   }
 
-  def display(): Unit = {
-    var data: String = ""
-
-    for(y <- 0 until height){
-      for(x <- 0 until width){
-        data += colour(x)(y) + content(x)(y)
-      }
-      data += "\n"
+  val width = lines(0).length
+  val height = lines.length
+  def getContent(x: Int, y: Int):Char = {
+    if (pointInside(x, y)) {
+      lines(y)(x)
+    }else{
+      throw new IndexOutOfBoundsException(s"Index ($x, $y) is out of bounds for image of size ($width, $height)")
     }
-    print(data)
+  }
+
+  def pointInside(x: Int, y: Int): Boolean = {
+    0 <= x && x < width && 0 <= y && y < height
   }
 }
