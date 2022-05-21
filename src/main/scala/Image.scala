@@ -3,12 +3,15 @@ class Image (width: Int, height: Int) {
   //TODO colour
   //TODO sprites
   val content = Array.ofDim[Char](width, height)
+  val colour = Array.ofDim[String](width, height)
   clear(' ')
 
-  def clear(c: Char): Unit = {
+  def clear(c: Char): Unit = clear(c, Console.RESET)
+  def clear(c: Char, col: String): Unit = {
     for(x <- 0 until width){
       for(y <- 0 until height){
         content(x)(y) = c
+        colour(x)(y) = col
       }
     }
   }
@@ -16,9 +19,11 @@ class Image (width: Int, height: Int) {
   def pointInside(x: Int, y: Int): Boolean = {
     0 <= x && x < width && 0 <= y && y < height
   }
-  def setChar(x: Int, y: Int, c: Char): Boolean = {
+  def setChar(x: Int, y: Int, c: Char): Boolean = setChar(x, y, c, Console.RESET)
+  def setChar(x: Int, y: Int, c: Char, col: String): Boolean = {
     if (pointInside(x, y)) {
       content(x)(y) = c
+      colour(x)(y) = col
       true
     }else{
       false
@@ -44,12 +49,15 @@ class Image (width: Int, height: Int) {
 
     data += tl + h*width + tr + "\n"
     for(y <- 0 until height){
+      data += Console.RESET
       data += v 
       for(x <- 0 until width){
-        data += content(x)(y)
+        data += colour(x)(y) + content(x)(y)
       }
+      data += Console.RESET
       data += v + "\n" 
     }
+    data += Console.RESET
     data += bl + h*width + br + "\n"
     print(data)
   }
