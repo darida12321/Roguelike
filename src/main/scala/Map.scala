@@ -22,8 +22,8 @@ class TileMap(x: Int, y: Int) {
     }
   }
   
-  // directly teleports entity e to tile (i, j) on the grid
-  // TODO handle preventing warping into tiles that do not exist
+  // directly moves entity e to tile (i, j) on the grid
+  // TODO handle preventing movement into tiles that do not exist
   def moveTo(e: Entity, i: Int, j: Int): Unit = dict.get(e) match {
     case Some((x: Int, y: Int)) => {
       grid(x)(y) = Room(grid(x)(y).es - e)
