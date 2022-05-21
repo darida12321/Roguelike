@@ -12,7 +12,7 @@ class Map(x: Int, y: Int) {
   // TODO outsource this functionality to the generation of an image.
   def display(): String = grid.map(_.map(
       (t : Tile) => t match {
-        case Empty => "O"
+        case Empty => 0x0D9E.toChar
         case Full(s) => s
       }
     ).mkString(" ")).mkString("\n")
