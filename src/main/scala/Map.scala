@@ -8,14 +8,14 @@ class Map(x: Int, y: Int) {
       grid(i)(j) = Empty
     }
   }
-  
 
+  // TODO outsource this functionality to the generation of an image.
   def display(): String = grid.map(_.map(
       (t : Tile) => t match {
         case Empty => "O"
         case Full(s) => s
       }
-    ).toString() + "\n").toString()
+    ).mkString(" ")).mkString("\n")
 }
 
 sealed trait Tile
