@@ -1,12 +1,9 @@
 
 class Image (width: Int, height: Int) {
   val content = Array.ofDim[Char](width, height)
-
-  def init(): Unit = {
-    for(x <- 0 until width){
-      for(y <- 0 until height){
-        content(x)(y) = ' '
-      }
+  for(x <- 0 until width){
+    for(y <- 0 until height){
+      content(x)(y) = '.'
     }
   }
 
@@ -20,7 +17,13 @@ class Image (width: Int, height: Int) {
     val br = 0x251b.toChar.toString
 
     data += tl + h*width + tr + "\n"
-    data += (v + " "*width + v + "\n") * height 
+    for(y <- 0 until height){
+      data += v 
+      for(x <- 0 until width){
+        data += content(x)(y)
+      }
+      data += v + "\n" 
+    }
     data += bl + h*width + br + "\n"
     print(data)
   }
