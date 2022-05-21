@@ -1,29 +1,39 @@
 import scala.io.StdIn.readLine
 
 object Main extends App {
-  val map = new Map(10, 10)
+  val map = new TileMap(10, 10)
   var pos_x = 0
   var pos_y = 0
-  map.grid(pos_x)(pos_y) = Full("C")
+  val player = new Entity()
+  map.place(player, pos_x, pos_y)
   var loopAgain = true
   while (loopAgain) {
+    // TODO offload this shit to a parser
     println(map.display())
     var prompt = readLine("> ")
     prompt match {
-      case "u" => updatePos(-1, 0)
-      case "d" => updatePos(1, 0)
-      case "l" => updatePos(0, -1)
-      case "r" => updatePos(0, 1)
-      case _ => {
+      case "u" => {
+        map.move(player, pos_x - 1, pos_y)
+        pos_x = pos_x - 1
+      }
+      case "d" => {
+        map.move(player, pos_x + 1, pos_y)
+        pos_x = pos_x + 1
+      }
+      case "l" => {
+        map.move(player, pos_x, pos_y - 1)
+        pos_y = pos_y - 1
+      }
+      case "r" => { 
+        map.move(player, pos_x, pos_y + 1)
+        pos_y = pos_y + 1
+      }
+      case "q" => {
         loopAgain = false
       }
+      case _ => {
+        // do nothing
+      }
     }
-  }
-
-  def updatePos(x_off: Int, y_off: Int): Unit = {
-    map.grid(pos_x + x_off)(pos_y + y_off) = map.grid(pos_x)(pos_y)
-    map.grid(pos_x)(pos_y) = Empty
-    pos_x = pos_x + x_off
-    pos_y = pos_y + y_off
   }
 }
