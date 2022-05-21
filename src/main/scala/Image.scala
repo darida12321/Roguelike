@@ -1,7 +1,5 @@
 
-class Image (width: Int, height: Int) {
-  //TODO colour
-  //TODO sprites
+class Image(width: Int, height: Int) {
   val content = Array.ofDim[Char](width, height)
   val colour = Array.ofDim[String](width, height)
   clear(' ')
@@ -34,6 +32,22 @@ class Image (width: Int, height: Int) {
       content(x)(y)
     }else{
       throw new IndexOutOfBoundsException(s"Index ($x, $y) is out of bounds for image of size ($width, $height)")
+    }
+  }
+
+  def drawSprite(x: Int, y: Int, spr: Sprite): Boolean = {
+    val w = spr.width
+    val h = spr.height
+    if (pointInside(x, y) && pointInside(x+w, y+h)) {
+      for(xx <- 0 until w){
+        for(yy <- 0 until h){
+          content(x+xx)(y+yy) = spr.getContent(xx, yy)
+          colour(x+xx)(y+yy) = spr.getColour(xx, yy)
+        }
+      }
+      true
+    }else{
+      false
     }
   }
 
