@@ -7,7 +7,7 @@ class TileMapTest extends AnyFlatSpec {
     map.display()
     for (i <- 0 until 10) {
       for (j <- 0 until 10) {
-        assert(map.grid(i)(j) == Empty)
+        assert(map.grid(i)(j).es.isEmpty)
       }
     }
   }
