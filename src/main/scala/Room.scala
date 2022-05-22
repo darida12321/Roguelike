@@ -17,11 +17,9 @@ object RoomMap {
   }
 }
 
-class Room(x: Int, y: Int, es: Set[Entity]) {
+class Room(x: Int, y: Int, private var es: Set[Entity]) {
   private var str = "+--1--+\n|     |\n|     |\n+-----+"
-
   private var sprite: Sprite = new SingleColourSprite(str)
-  private var contents = es
   
   private val connections = Array.ofDim[Option[Room]](4)
   for (i <- 0 until 4) {
@@ -35,5 +33,16 @@ class Room(x: Int, y: Int, es: Set[Entity]) {
 
   def displaySelf(img: Image): Unit = {
     img.drawSprite(x, y, sprite)
+    var xOff = 1
+    var yOff = 1
+    //TODO order the entities in importance
+    for(e <- es.filter(e => e.visible).take(10)){
+      img.setChar(x+xOff, y+yOff, e.char, e.colour)
+      xOff += 1;
+      if(xOff > 5){
+        xOff = 1;
+        yOff += 1
+      }
+    }
   }
 }
