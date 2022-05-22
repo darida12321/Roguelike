@@ -22,7 +22,7 @@ object Main extends App {
     }
     print("\u001b[2J\u001b[;H") 
   }*/
-  RoomMap.addRoom(new Room(1, 1, Set(
+  val room1 = new Room(1, 1, Set(
     new TestEntity('A', Console.RED),
     new TestEntity('B', Console.RED),
     new TestEntity('C', Console.RED),
@@ -34,8 +34,10 @@ object Main extends App {
     new TestEntity('i', Console.RED),
     new TestEntity('j', Console.RED),
     new TestEntity('k', Console.RED)
-  )))
+  ))
+  val room2 = new Room(11, 1, Set.empty)
 
-  RoomMap.addRoom(new Room(10, 1, Set.empty))
+  RoomMap.addRoom(room1)
+  RoomMap.addRoom(room2)
   RoomMap.display()
 }

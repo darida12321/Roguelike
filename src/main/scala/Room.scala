@@ -17,10 +17,14 @@ object RoomMap {
   }
 }
 
+object Room {
+  val WIDTH = 5
+  val HEIGHT = 2
+
+  var str = "+--1--+\n|     |\n|     |\n+-----+"
+  var sprite: Sprite = new SingleColourSprite(str)
+}
 class Room(x: Int, y: Int, private var es: Set[Entity]) {
-  private var str = "+--1--+\n|     |\n|     |\n+-----+"
-  private var sprite: Sprite = new SingleColourSprite(str)
-  
   private val connections = Array.ofDim[Option[Room]](4)
   for (i <- 0 until 4) {
     connections(i) = None
@@ -32,17 +36,15 @@ class Room(x: Int, y: Int, private var es: Set[Entity]) {
   def right(): Option[Room] = connections(3)
 
   def displaySelf(img: Image): Unit = {
-    img.drawSprite(x, y, sprite)
-    var xOff = 1
-    var yOff = 1
+    img.drawSprite(x, y, Room.sprite)
+
     //TODO order the entities in importance
-    for(e <- es.filter(e => e.visible).take(10)){
-      img.setChar(x+xOff, y+yOff, e.char, e.colour)
-      xOff += 1;
-      if(xOff > 5){
-        xOff = 1;
-        yOff += 1
-      }
+    val displayed = es.filter(e => e.visible).take(10).toList
+    for(i <- 0 until displayed.length){
+      val e = displayed(i)
+      img.setChar(x+i%5+1, y+i/5+1, e.char, e.colour)
     }
+
+    //TODO display corridors
   }
 }
