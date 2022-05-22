@@ -18,10 +18,7 @@ object RoomMap {
 }
 
 class Room(x: Int, y: Int, es: Set[Entity]) {
-  private var str = ""
-  str += 0x256D.toChar + 0x2500.toChar.toString * 5 + 0x256E.toChar + '\n'
-  str += (0x2502.toChar + " " * 5 + 0x2502.toChar + '\n') * 2
-  str += 0x2570.toChar + 0x2500.toChar.toString * 5 + 0x256F.toChar
+  private var str = "+--1--+\n|     |\n|     |\n+-----+"
 
   private var sprite: Sprite = new SingleColourSprite(str)
   private var contents = es
