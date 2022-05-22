@@ -1,7 +1,7 @@
 import scala.io.StdIn.readLine
 
 object Main extends App {
-  val map = new TileMap(10, 10)
+  /*val map = new TileMap(10, 10)
   val player = new Entity()
   map.place(player, 0, 0)
   var loopAgain = true
@@ -21,5 +21,8 @@ object Main extends App {
       case _ => // do nothing
     }
     print("\u001b[2J\u001b[;H") 
-  }
+  }*/
+  RoomMap.addRoom(new Room(1, 1, Set.empty))
+  RoomMap.addRoom(new Room(10, 1, Set.empty))
+  RoomMap.display()
 }
