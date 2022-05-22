@@ -48,6 +48,14 @@ class Room(x: Int, y: Int, private var es: Set[Entity]) {
     }
 
     //TODO display corridors
+    if(connections(Right.index) != None){
+      img.setChar(x+Room.WIDTH+2, y+1, '-')
+      img.setChar(x+Room.WIDTH+3, y+1, '-')
+      img.setChar(x+Room.WIDTH+4, y+1, '-')
+      img.setChar(x+Room.WIDTH+2, y+2, '-')
+      img.setChar(x+Room.WIDTH+3, y+2, '-')
+      img.setChar(x+Room.WIDTH+4, y+2, '-')
+    }
   }
 }
 
