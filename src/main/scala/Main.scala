@@ -5,6 +5,7 @@ object Main extends App {
   val player = new Entity()
   map.place(player, 0, 0)
   var loopAgain = true
+  print("\u001b[2J\u001b[;H") 
   while (loopAgain) {
     // TODO offload this shit to a parser
     println(map.display())
@@ -19,5 +20,6 @@ object Main extends App {
       }
       case _ => // do nothing
     }
+    print("\u001b[2J\u001b[;H") 
   }
 }
