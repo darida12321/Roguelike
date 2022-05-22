@@ -30,10 +30,12 @@ class Room(x: Int, y: Int, private var es: Set[Entity]) {
     connections(i) = None
   }
 
-  def up(): Option[Room] = connections(0)
-  def down(): Option[Room] = connections(1)
-  def left(): Option[Room] = connections(2)
-  def right(): Option[Room] = connections(3)
+  def roomAt(d: Direction): Option[Room] = connections(d.index)
+
+  def connect(d: Direction, r: Room): Unit = {
+    this.connections(d.index) = Some(r)
+    r.connections(Direction.invert(d).index) = Some(this)
+  }
 
   def displaySelf(img: Image): Unit = {
     img.drawSprite(x, y, Room.sprite)
@@ -48,3 +50,33 @@ class Room(x: Int, y: Int, private var es: Set[Entity]) {
     //TODO display corridors
   }
 }
+
+sealed trait Direction {
+  val index: Int
+}
+object Direction {
+  def fromInt(i: Int): Direction = i match {
+    case 0 => Right
+    case 1 => Up
+    case 2 => Left
+    case 3 => Down
+  }
+
+  def invert(d: Direction): Direction = fromInt((d.index + 2) % 4)
+  def rotateRight(d: Direction): Direction = fromInt((d.index + 3) % 4)
+  def rotateLeft(d: Direction): Direction = fromInt((d.index + 1) % 4)
+}
+
+object Right extends Direction {
+  override val index = 0
+}
+object Up extends Direction {
+  override val index = 1
+}
+object Left extends Direction {
+  override val index = 2
+}
+object Down extends Direction {
+  override val index = 3
+}
+
