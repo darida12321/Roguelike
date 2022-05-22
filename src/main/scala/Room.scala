@@ -15,13 +15,22 @@ object RoomMap {
     }
     image.display()
   }
-
 }
 
 class Room(x: Int, y: Int, es: Set[Entity]) {
   private var sprite: Sprite = new SingleColourSprite("aaa\naaa\naaa")
   private var contents = es
   
+  private val connections = Array.ofDim[Option[Room]](4)
+  for (i <- 0 until 4) {
+    connections(i) = None
+  }
+
+  def up(): Option[Room] = connections(0)
+  def down(): Option[Room] = connections(1)
+  def left(): Option[Room] = connections(2)
+  def right(): Option[Room] = connections(3)
+
   def displaySelf(img: Image): Unit = {
     img.drawSprite(x, y, sprite)
   }
