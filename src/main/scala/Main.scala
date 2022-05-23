@@ -19,9 +19,10 @@ object Main extends App {
   room3.connect(Up, room2)
 
   RoomActions.move(e2, Right)
-
-  RoomMap.addRoom(room1)
-  RoomMap.addRoom(room2)
-  RoomMap.addRoom(room3)
-  RoomMap.display()
+  
+  val roomMap = new RoomMap(30, 10)
+  roomMap.addRoom(room1)
+  roomMap.addRoom(room2)
+  roomMap.addRoom(room3)
+  roomMap.display()
 }

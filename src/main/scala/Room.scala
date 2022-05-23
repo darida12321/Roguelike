@@ -1,7 +1,7 @@
 import scala.collection.mutable
 import scala.collection.Set
 
-object RoomMap {
+class RoomMap(val w: Int, val h: Int) {
   private var contents = Set.empty[Entity]
   private var rooms = Set.empty[Room]
   
@@ -9,7 +9,7 @@ object RoomMap {
     rooms += room
   }
   def display(): Unit = {
-    val image = new Image(30, 10)
+    val image = new Image(w, h)
     for(room <- rooms){
       room.displaySelf(image)
     }
