@@ -2,8 +2,7 @@ import scala.collection.mutable
 import scala.collection.Set
 
 class RoomMap(val w: Int, val h: Int) {
-  private var contents = Set.empty[Entity]
-  private var rooms = Set.empty[Room]
+  var rooms = Set.empty[Room]
   
   def addRoom(room: Room) = {
     rooms += room
