@@ -39,9 +39,13 @@ class Room(x: Int, y: Int, private var es: Set[Entity]) {
     r.connections(Direction.invert(d).index) = Some(this)
   }
 
-  def addEntity(e: Entity): Unit = { es += e }
+  def addEntity(e: Entity): Unit = { 
+    e.room = Some(this)
+    es += e
+  }
   def removeEntity(e: Entity): Boolean = {
     if(es.contains(e)){
+      e.room = None
       es -= e
       true
     } else { false }

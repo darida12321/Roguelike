@@ -18,6 +18,8 @@ object Main extends App {
   room2.connect(Left, room1)
   room3.connect(Up, room2)
 
+  RoomActions.move(e2, Right)
+
   RoomMap.addRoom(room1)
   RoomMap.addRoom(room2)
   RoomMap.addRoom(room3)
