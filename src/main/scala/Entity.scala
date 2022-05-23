@@ -10,3 +10,9 @@ class TestEntity(val char: Char, val colour: String) extends Entity {
 class TestEntity2(val char: Char, val colour: String) extends Entity {
   val visible = false 
 }
+
+class Robot() extends Entity {
+  val char = 'A'
+  val colour = Console.GREEN
+  val visible = true
+}
