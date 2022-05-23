@@ -25,7 +25,7 @@ object Room {
   var sprite: Sprite = new SingleColourSprite(str)
 }
 class Room(x: Int, y: Int, private var es: Set[Entity]) {
-  private val connections = Array.ofDim[Option[Room]](4)
+  val connections = Array.ofDim[Option[Room]](4)
   for (i <- 0 until 4) {
     connections(i) = None
   }
@@ -55,6 +55,11 @@ class Room(x: Int, y: Int, private var es: Set[Entity]) {
       img.setChar(x+Room.WIDTH+2, y+2, '-')
       img.setChar(x+Room.WIDTH+3, y+2, '-')
       img.setChar(x+Room.WIDTH+4, y+2, '-')
+    }
+
+    if(connections(Down.index) != None){
+      img.setChar(x+2, y+Room.HEIGHT+2, '|')
+      img.setChar(x+4, y+Room.HEIGHT+2, '|')
     }
   }
 }

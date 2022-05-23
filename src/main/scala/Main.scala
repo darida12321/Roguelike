@@ -38,6 +38,7 @@ object Main extends App {
   val room2 = new Room(11, 0, Set.empty)
   val room3 = new Room(11, 5, Set.empty)
   room2.connect(Left, room1)
+  room3.connect(Up, room2)
 
   RoomMap.addRoom(room1)
   RoomMap.addRoom(room2)
