@@ -2,6 +2,7 @@ trait Entity {
   val char: Char 
   val colour: String
   val visible: Boolean
+  var room: Option[Room] = None
 }
 
 class TestEntity(val char: Char, val colour: String) extends Entity {

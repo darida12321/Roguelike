@@ -29,13 +29,24 @@ class Room(x: Int, y: Int, private var es: Set[Entity]) {
   for (i <- 0 until 4) {
     connections(i) = None
   }
+  for (e <- es) {
+    e.room = Some(this)
+  }
 
   def roomAt(d: Direction): Option[Room] = connections(d.index)
-
   def connect(d: Direction, r: Room): Unit = {
     this.connections(d.index) = Some(r)
     r.connections(Direction.invert(d).index) = Some(this)
   }
+
+  def addEntity(e: Entity): Unit = { es += e }
+  def removeEntity(e: Entity): Boolean = {
+    if(es.contains(e)){
+      es -= e
+      true
+    } else { false }
+  }
+  def containsEntity(e: Entity): Boolean = es.contains(e)
 
   def displaySelf(img: Image): Unit = {
     img.drawSprite(x, y, Room.sprite)
