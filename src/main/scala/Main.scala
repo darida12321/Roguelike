@@ -5,6 +5,7 @@ object Main extends App {
   
   // TODO Add room index
   // TODO Add tests
+  // TODO better room coordinates
   val roomMap = MapGenerator.getPredefinedMap()
   roomMap.rooms.head.addEntity(e1)
   
