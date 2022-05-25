@@ -66,7 +66,7 @@ class ImageTest extends AnyFlatSpec {
     img.getChar(0, 1) shouldBe 'c'
     img.getChar(1, 1) shouldBe 'd'
   }
-  it should "threo an exception when writing outside the bounds" in {
+  it should "throw an exception when writing outside the bounds" in {
     val img = new Image(2, 3)
     an [IndexOutOfBoundsException] should be thrownBy img.getChar(-1, 0)
     an [IndexOutOfBoundsException] should be thrownBy img.getChar(0, -1)
@@ -75,5 +75,41 @@ class ImageTest extends AnyFlatSpec {
     an [IndexOutOfBoundsException] should be thrownBy img.getChar(2, 3)
     an [IndexOutOfBoundsException] should be thrownBy img.getChar(-1, 3)
     an [IndexOutOfBoundsException] should be thrownBy img.getChar(3, -1)
+  }
+
+  class TestSprite() extends Sprite {
+    val width = 2
+    val height = 2
+    def getContent(x: Int, y: Int): Char = {
+      var c = ' '
+      if (x == 0 && y == 0){ c = 'a' }
+      else if (x == 1 && y == 0){ c = 'b' }
+      else if (x == 0 && y == 1){ c = 'c' }
+      else if (x == 1 && y == 1){ c = 'd' }
+      c
+    }
+    def getColour(x: Int, y: Int): String = Console.RESET
+  }
+  behavior of "Sprites"
+  it should "display the sprite in the correct position" in {
+    val img = new Image(5, 5)
+    val spr = new TestSprite()
+    img.drawSprite(1, 2, spr)
+    img.getContent() shouldBe "     \n     \n ab  \n cd  \n     \n"
+  }
+
+  it should "throw an exception when out of bounds" in {
+    val img = new Image(5, 5)
+    val spr = new TestSprite()
+    an [IndexOutOfBoundsException] should be thrownBy img.drawSprite(-1, -1, spr)
+    an [IndexOutOfBoundsException] should be thrownBy img.drawSprite(1, -1, spr)
+    an [IndexOutOfBoundsException] should be thrownBy img.drawSprite(-1, 1, spr)
+    an [IndexOutOfBoundsException] should be thrownBy img.drawSprite(5, 5, spr)
+    an [IndexOutOfBoundsException] should be thrownBy img.drawSprite(4, 5, spr)
+    an [IndexOutOfBoundsException] should be thrownBy img.drawSprite(5, 4, spr)
+    an [IndexOutOfBoundsException] should be thrownBy img.drawSprite(5, 5, spr)
+    an [IndexOutOfBoundsException] should be thrownBy img.drawSprite(4, 4, spr)
+    an [IndexOutOfBoundsException] should be thrownBy img.drawSprite(3, 4, spr)
+    an [IndexOutOfBoundsException] should be thrownBy img.drawSprite(4, 3, spr)
   }
 }
