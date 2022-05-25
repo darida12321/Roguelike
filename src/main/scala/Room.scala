@@ -7,6 +7,15 @@ class RoomMap(val w: Int, val h: Int) {
   def addRoom(room: Room) = {
     rooms += room
   }
+  def getRoom(id: Int) = {
+    val rs:Set[Room] = rooms.filter(r => r.id == id)
+    if(rs.size == 0){
+      None
+    } else {
+      rs.head
+    }
+  }
+
   def display(): Unit = {
     val image = new Image(w, h)
     for(room <- rooms){
@@ -20,12 +29,13 @@ object Room {
   val WIDTH = 5
   val HEIGHT = 2
 
-  var str = "+--1--+\n|     |\n|     |\n+-----+"
+  var str = "+-----+\n|     |\n|     |\n+-----+"
   var sprite: Sprite = new SingleColourSprite(str)
 }
-class Room(x: Int, y: Int, private var es: Set[Entity]) {
+
+class Room(x: Int, y: Int, val id: Int, private var es: Set[Entity]) {
   val connections = Array.ofDim[Option[Room]](4)
-  for (i <- 0 until 4) {
+  for (i <- Right.index to Down.index) {
     connections(i) = None
   }
   for (e <- es) {
@@ -53,28 +63,32 @@ class Room(x: Int, y: Int, private var es: Set[Entity]) {
 
   // TODO maybe move this outside?
   def displaySelf(img: Image): Unit = {
-    img.drawSprite(x, y, Room.sprite)
+    val rx: Int = 1 + x * (Room.WIDTH + 5) 
+    val ry: Int = 0 + y * (Room.HEIGHT + 3)
+    img.drawSprite(rx, ry, Room.sprite)
 
     //TODO order the entities in importance
     val displayed = es.filter(e => e.visible).take(10).toList
     for(i <- 0 until displayed.length){
       val e = displayed(i)
-      img.setChar(x+i%5+1, y+i/5+1, e.char, e.colour)
+      img.setChar(rx+i%5+1, ry+i/5+1, e.char, e.colour)
     }
-
-    //TODO display corridors
+    img.setChar(rx+Room.WIDTH/2+1, ry, id.toString.charAt(0))
+    
+    // TODO: Use sprites for corridors
+    // TODO: Dispay corridors when other side invisible
     if(connections(Right.index) != None){
-      img.setChar(x+Room.WIDTH+2, y+1, '-')
-      img.setChar(x+Room.WIDTH+3, y+1, '-')
-      img.setChar(x+Room.WIDTH+4, y+1, '-')
-      img.setChar(x+Room.WIDTH+2, y+2, '-')
-      img.setChar(x+Room.WIDTH+3, y+2, '-')
-      img.setChar(x+Room.WIDTH+4, y+2, '-')
+      img.setChar(rx+Room.WIDTH+2, ry+1, '-')
+      img.setChar(rx+Room.WIDTH+3, ry+1, '-')
+      img.setChar(rx+Room.WIDTH+4, ry+1, '-')
+      img.setChar(rx+Room.WIDTH+2, ry+2, '-')
+      img.setChar(rx+Room.WIDTH+3, ry+2, '-')
+      img.setChar(rx+Room.WIDTH+4, ry+2, '-')
     }
 
     if(connections(Down.index) != None){
-      img.setChar(x+2, y+Room.HEIGHT+2, '|')
-      img.setChar(x+4, y+Room.HEIGHT+2, '|')
+      img.setChar(rx+2, ry+Room.HEIGHT+2, '|')
+      img.setChar(rx+4, ry+Room.HEIGHT+2, '|')
     }
   }
 }

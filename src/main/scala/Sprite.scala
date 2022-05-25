@@ -1,7 +1,7 @@
 
-sealed trait Sprite {
-  def width: Int
-  def height: Int
+trait Sprite {
+  val width: Int
+  val height: Int
   def getContent(x: Int, y: Int): Char
   def getColour(x: Int, y: Int): String 
 }
@@ -37,4 +37,20 @@ class SingleColourSprite(str: String, col: String) extends Sprite {
   def pointInside(x: Int, y: Int): Boolean = {
     0 <= x && x < width && 0 <= y && y < height
   }
+}
+
+class BoxSprite(val width: Int, val height: Int, chars: String, col: String) extends Sprite {
+  if(chars.length != 7){
+    throw new Exception(s"The input $chars does not specify a box texture. You must give: (tl, tr, bl, br, h, v, inside) characters.")
+  }
+
+  def this(w: Int, h: Int, chars: String){
+    this(w, h, chars, Console.RESET)
+  }
+
+
+  def getContent(x: Int, y: Int): Char = {
+    ???
+  }
+  def getColour(x: Int, y: Int): String = col
 }
