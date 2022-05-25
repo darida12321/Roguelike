@@ -1,5 +1,9 @@
 
 class Image(width: Int, height: Int) {
+  if(width <= 0 || height <= 0){
+    throw new IllegalArgumentException(s"Width and height must be greater than 0. ($width, $height)")
+  }
+
   val content = Array.ofDim[Char](width, height)
   val colour = Array.ofDim[String](width, height)
   clear(' ')
@@ -14,7 +18,7 @@ class Image(width: Int, height: Int) {
     }
   }
 
-  def pointInside(x: Int, y: Int): Boolean = {
+  private def pointInside(x: Int, y: Int): Boolean = {
     0 <= x && x < width && 0 <= y && y < height
   }
   def setChar(x: Int, y: Int, c: Char): Boolean = setChar(x, y, c, Console.RESET)
@@ -51,9 +55,17 @@ class Image(width: Int, height: Int) {
     }
   }
 
-
-  def display(): Unit = {
+  def getContent(): String = {
     var data: String = ""
+    for(y <- 0 until height){
+      for(x <- 0 until width){
+        data += content(x)(y)
+      }
+      data += "\n"
+    }
+    data
+  }
+  def display(): Unit = {
     val h = 0x2501.toChar.toString
     val v = 0x2503.toChar.toString
     val tl = 0x250f.toChar.toString
@@ -61,6 +73,7 @@ class Image(width: Int, height: Int) {
     val bl = 0x2517.toChar.toString
     val br = 0x251b.toChar.toString
 
+    var data: String = ""
     data += tl + h*width + tr + "\n"
     for(y <- 0 until height){
       data += Console.RESET

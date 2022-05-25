@@ -3,9 +3,9 @@ import scala.io.StdIn.readLine
 object Main extends App {
   val e1 = new Robot();
   
-  // TODO Add room index
   // TODO Add tests
-  // TODO better room coordinates
+  // TODO Refactor room display
+  // TODO Add box sprite
   val roomMap = MapGenerator.getPredefinedMap()
   roomMap.rooms.head.addEntity(e1)
 
