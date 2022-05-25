@@ -7,4 +7,7 @@ object Main extends App {
   roomMap.rooms.head.addEntity(e1)
   
   roomMap.display()
+
+  // TODO add input handler
+  // Thinking of a rotation between Entities - if it's a player entity, we allow input
 }
