@@ -43,4 +43,37 @@ class ImageTest extends AnyFlatSpec {
     img.setChar(1, 1, 'd')
     img.getContent() shouldBe "ab\ncd\n"
   }
+  it should "throw an exception when writing outside the bounds" in {
+    val img = new Image(2, 3)
+    an [IndexOutOfBoundsException] should be thrownBy img.setChar(-1, 0, 'a')
+    an [IndexOutOfBoundsException] should be thrownBy img.setChar(0, -1, 'a')
+    an [IndexOutOfBoundsException] should be thrownBy img.setChar(2, 0, 'a')
+    an [IndexOutOfBoundsException] should be thrownBy img.setChar(0, 3, 'a')
+    an [IndexOutOfBoundsException] should be thrownBy img.setChar(2, 3, 'a')
+    an [IndexOutOfBoundsException] should be thrownBy img.setChar(-1, 3, 'a')
+    an [IndexOutOfBoundsException] should be thrownBy img.setChar(3, -1, 'a')
+  }
+
+  behavior of "Getting a character"
+  it should "return the correct character" in {
+    val img = new Image(2, 2)
+    img.setChar(0, 0, 'a')
+    img.setChar(1, 0, 'b')
+    img.setChar(0, 1, 'c')
+    img.setChar(1, 1, 'd')
+    img.getChar(0, 0) shouldBe 'a'
+    img.getChar(1, 0) shouldBe 'b'
+    img.getChar(0, 1) shouldBe 'c'
+    img.getChar(1, 1) shouldBe 'd'
+  }
+  it should "threo an exception when writing outside the bounds" in {
+    val img = new Image(2, 3)
+    an [IndexOutOfBoundsException] should be thrownBy img.getChar(-1, 0)
+    an [IndexOutOfBoundsException] should be thrownBy img.getChar(0, -1)
+    an [IndexOutOfBoundsException] should be thrownBy img.getChar(2, 0)
+    an [IndexOutOfBoundsException] should be thrownBy img.getChar(0, 3)
+    an [IndexOutOfBoundsException] should be thrownBy img.getChar(2, 3)
+    an [IndexOutOfBoundsException] should be thrownBy img.getChar(-1, 3)
+    an [IndexOutOfBoundsException] should be thrownBy img.getChar(3, -1)
+  }
 }
