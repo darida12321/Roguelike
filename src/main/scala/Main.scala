@@ -8,6 +8,8 @@ object Main extends App {
   // TODO better room coordinates
   val roomMap = MapGenerator.getPredefinedMap()
   roomMap.rooms.head.addEntity(e1)
+
+  val room = roomMap.getRoom(2)
   
   roomMap.display()
 }

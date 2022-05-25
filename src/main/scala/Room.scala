@@ -7,6 +7,15 @@ class RoomMap(val w: Int, val h: Int) {
   def addRoom(room: Room) = {
     rooms += room
   }
+  def getRoom(id: Int) = {
+    val rs:Set[Room] = rooms.filter(r => r.id == id)
+    if(rs.size == 0){
+      None
+    } else {
+      rs.head
+    }
+  }
+
   def display(): Unit = {
     val image = new Image(w, h)
     for(room <- rooms){
@@ -20,12 +29,13 @@ object Room {
   val WIDTH = 5
   val HEIGHT = 2
 
-  var str = "+--1--+\n|     |\n|     |\n+-----+"
+  var str = "+-----+\n|     |\n|     |\n+-----+"
   var sprite: Sprite = new SingleColourSprite(str)
 }
-class Room(x: Int, y: Int, private var es: Set[Entity]) {
+
+class Room(x: Int, y: Int, val id: Int, private var es: Set[Entity]) {
   val connections = Array.ofDim[Option[Room]](4)
-  for (i <- 0 until 4) {
+  for (i <- Right.index to Down.index) {
     connections(i) = None
   }
   for (e <- es) {
@@ -62,6 +72,7 @@ class Room(x: Int, y: Int, private var es: Set[Entity]) {
       val e = displayed(i)
       img.setChar(rx+i%5+1, ry+i/5+1, e.char, e.colour)
     }
+    img.setChar(rx+Room.WIDTH/2+1, ry, id.toString.charAt(0))
     
     // TODO: Use sprites for corridors
     // TODO: Dispay corridors when other side invisible
