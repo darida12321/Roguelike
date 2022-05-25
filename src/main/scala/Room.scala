@@ -51,6 +51,7 @@ class Room(x: Int, y: Int, private var es: Set[Entity]) {
   }
   def containsEntity(e: Entity): Boolean = es.contains(e)
 
+  // TODO maybe move this outside?
   def displaySelf(img: Image): Unit = {
     img.drawSprite(x, y, Room.sprite)
 
