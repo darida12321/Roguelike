@@ -11,9 +11,12 @@ class SingleColourSprite(str: String, col: String) extends Sprite {
     this(str, Console.RESET)
   }
   val lines = str.split("\n")
+  if(lines.length == 1 && lines(0).length == 0){
+    throw new IllegalArgumentException(s"A sprite cannot be created from an empty string.")
+  }
   for(line <- lines){
     if(line.length != lines(0).length){
-      throw new Exception(s"Sprite string is not a rectangle for \n$str")
+      throw new IllegalArgumentException(s"Sprite string is not a rectangle for \n$str")
     }
   }
 
