@@ -1,4 +1,5 @@
 
+// A Sprite to display on images
 trait Sprite {
   val width: Int
   val height: Int
@@ -6,6 +7,7 @@ trait Sprite {
   def getColour(x: Int, y: Int): String 
 }
 
+// A sprite from a string with a single colour
 class SingleColourSprite(str: String, col: String) extends Sprite {
   def this(str: String){
     this(str, Console.RESET)
@@ -42,6 +44,7 @@ class SingleColourSprite(str: String, col: String) extends Sprite {
   }
 }
 
+// A sprite for drawing a box outline
 class BoxSprite(val width: Int, val height: Int, chars: String, col: String) extends Sprite {
   if(chars.length != 7){
     throw new Exception(s"The input $chars does not specify a box texture. You must give: (tl, tr, bl, br, h, v, inside) characters.")
