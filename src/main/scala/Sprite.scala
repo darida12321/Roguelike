@@ -9,9 +9,7 @@ trait Sprite {
 
 // A sprite from a string with a single colour
 class SingleColourSprite(str: String, col: String) extends Sprite {
-  def this(str: String){
-    this(str, Console.RESET)
-  }
+  // Constructor to get the content of the given string
   val lines = str.split("\n")
   if(lines.length == 1 && lines(0).length == 0){
     throw new IllegalArgumentException(s"A sprite cannot be created from an empty string.")
@@ -21,9 +19,17 @@ class SingleColourSprite(str: String, col: String) extends Sprite {
       throw new IllegalArgumentException(s"Sprite string is not a rectangle for \n$str")
     }
   }
+  
+  // Constructor with default colour
+  def this(str: String){
+    this(str, Console.RESET)
+  }
 
+  // Get width and height
   val width = lines(0).length
   val height = lines.length
+
+  // Get content and colour
   def getContent(x: Int, y: Int): Char = {
     if (!pointInside(x, y)) {
       throw new IndexOutOfBoundsException(s"Index ($x, $y) is out of bounds for image of size ($width, $height)")
@@ -36,7 +42,8 @@ class SingleColourSprite(str: String, col: String) extends Sprite {
     }
     col
   }
-
+  
+  // Check if a given point is inside the sprite
   def pointInside(x: Int, y: Int): Boolean = {
     0 <= x && x < width && 0 <= y && y < height
   }
@@ -45,18 +52,20 @@ class SingleColourSprite(str: String, col: String) extends Sprite {
 // A sprite for drawing a box outline
 // The chars is: tl, tr, bl, br, horizontal, vertical, inside
 class BoxSprite(val width: Int, val height: Int, chars: String, col: String) extends Sprite {
+  // Constructor to chack that the arguments are valid
   if(chars.length != 7){
     throw new IllegalArgumentException(s"The input $chars does not specify a box texture. You must give: (tl, tr, bl, br, h, v, inside) characters.")
   }
   if(width <= 0 || height <= 0){
     throw new IllegalArgumentException(s"The size ($width, $height) is not a valid size for a sprite.")
   }
-
+  
+  // Constructor with default colour
   def this(w: Int, h: Int, chars: String){
     this(w, h, chars, Console.RESET)
   }
 
-
+  // Get the content at a given point based on where the point lies
   def getContent(x: Int, y: Int): Char = {
     if (!pointInside(x, y)) {
       throw new IndexOutOfBoundsException(s"Index ($x, $y) is out of bounds for image of size ($width, $height)")
@@ -70,6 +79,7 @@ class BoxSprite(val width: Int, val height: Int, chars: String, col: String) ext
     if (x == width-1 && y == height-1) { c = chars.charAt(3) } // BR
     c
   }
+  // Return the default colour
   def getColour(x: Int, y: Int): String = {
     if (!pointInside(x, y)) {
       throw new IndexOutOfBoundsException(s"Index ($x, $y) is out of bounds for image of size ($width, $height)")
@@ -77,7 +87,7 @@ class BoxSprite(val width: Int, val height: Int, chars: String, col: String) ext
     col
   }
 
-
+  // Get if a point is inside the sprite
   def pointInside(x: Int, y: Int): Boolean = {
     0 <= x && x < width && 0 <= y && y < height
   }
