@@ -34,7 +34,7 @@ object Room {
 }
 
 class Room(x: Int, y: Int, val id: Int, private var es: Set[Entity]) {
-  val connections = Array.ofDim[Option[Room]](4)
+  private val connections = Array.ofDim[Option[Room]](4)
   for (i <- Right.index to Down.index) {
     connections(i) = None
   }
