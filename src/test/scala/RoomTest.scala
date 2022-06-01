@@ -5,7 +5,7 @@ class RoomTest extends AnyFlatSpec {
 
   behavior of "Room connections"
   it should "initialize with no connections" in {
-    val room = new Room(1, 1, 1, Set.empty)
+    val room = new Room(1, 1, 1)
     room.roomAt(Right) shouldBe None
     room.roomAt(Up) shouldBe None
     room.roomAt(Left) shouldBe None
@@ -13,11 +13,11 @@ class RoomTest extends AnyFlatSpec {
   }
 
   it should "add new connections in different directions" in {
-    val room = new Room(1, 1, 1, Set.empty)
-    val room1 = new Room(1, 1, 2, Set.empty)
-    val room2 = new Room(1, 1, 3, Set.empty)
-    val room3 = new Room(1, 1, 4, Set.empty)
-    val room4 = new Room(1, 1, 5, Set.empty)
+    val room = new Room(1, 1, 1)
+    val room1 = new Room(1, 1, 2)
+    val room2 = new Room(1, 1, 3)
+    val room3 = new Room(1, 1, 4)
+    val room4 = new Room(1, 1, 5)
     
     room.connect(Right, room1)
     room.connect(Up, room2)
@@ -31,11 +31,11 @@ class RoomTest extends AnyFlatSpec {
   }
 
   it should "make the other room reconnect in correct direction" in {
-    val room = new Room(1, 1, 1, Set.empty)
-    val room1 = new Room(1, 1, 2, Set.empty)
-    val room2 = new Room(1, 1, 3, Set.empty)
-    val room3 = new Room(1, 1, 4, Set.empty)
-    val room4 = new Room(1, 1, 5, Set.empty)
+    val room = new Room(1, 1, 1)
+    val room1 = new Room(1, 1, 2)
+    val room2 = new Room(1, 1, 3)
+    val room3 = new Room(1, 1, 4)
+    val room4 = new Room(1, 1, 5)
 
     room.connect(Right, room1)
     room.connect(Up, room2)
@@ -54,12 +54,12 @@ class RoomTest extends AnyFlatSpec {
 
   behavior of "Room entity set"
   it should "start with no entities" in {
-    val room = new Room(1, 1, 1, Set.empty)
+    val room = new Room(1, 1, 1)
     room.getEntities().size shouldBe 0
   }
 
   it should "keep track of added entities" in {
-    val room = new Room(1, 1, 1, Set.empty)
+    val room = new Room(1, 1, 1)
     val e1 = new TestEntity('a', true)
     val e2 = new TestEntity('b', true)
     room.addEntity(e1)
@@ -69,7 +69,7 @@ class RoomTest extends AnyFlatSpec {
   }
 
   it should "throw an error when adding an entity twice" in {
-    val room = new Room(1, 1, 1, Set.empty)
+    val room = new Room(1, 1, 1)
     val e = new TestEntity('a', true)
     room.addEntity(e)
     room.getEntities() shouldBe Set(e)
@@ -77,7 +77,7 @@ class RoomTest extends AnyFlatSpec {
   }
 
   it should "remove entities" in {
-    val room = new Room(1, 1, 1, Set.empty)
+    val room = new Room(1, 1, 1)
     val e1 = new TestEntity('a', true)
     val e2 = new TestEntity('b', true)
     room.addEntity(e1)
@@ -90,26 +90,26 @@ class RoomTest extends AnyFlatSpec {
   }
 
   it should "throw an error when removing non-existent entities" in {
-    val room = new Room(1, 1, 1, Set.empty)
+    val room = new Room(1, 1, 1)
     val e = new TestEntity('a', true)
     an [IllegalArgumentException] should be thrownBy room.removeEntity(e)
   }
 
-  behavior of "Room variable of entities"
+  behavior of "The room variable of entities"
   it should "start with no rooms present" in {
     val e = new TestEntity('a', true)
     e.getRoom() shouldBe None
   }
   
   it should "update when entering a room" in {
-    val room = new Room(1, 1, 1, Set.empty)
+    val room = new Room(1, 1, 1)
     val e = new TestEntity('a', true)
     room.addEntity(e)
     e.getRoom() shouldBe Some(room)
   }
 
   it should "update when leaving a room" in {
-    val room = new Room(1, 1, 1, Set.empty)
+    val room = new Room(1, 1, 1)
     val e = new TestEntity('a', true)
     room.addEntity(e)
     room.removeEntity(e)
@@ -117,24 +117,55 @@ class RoomTest extends AnyFlatSpec {
   }
 
   it should "throw an error when in two rooms at once" in {
-    val room1 = new Room(1, 1, 1, Set.empty)
-    val room2 = new Room(1, 1, 2, Set.empty)
+    val room1 = new Room(1, 1, 1)
+    val room2 = new Room(1, 1, 2)
     val e = new TestEntity('a', true)
     room1.addEntity(e)
     an [IllegalArgumentException] should be thrownBy room2.addEntity(e)
   }
 
   it should "not be allowed to be changed" in {
-    val room = new Room(1, 1, 1, Set.empty)
+    val room = new Room(1, 1, 1)
     val e = new TestEntity('a', true)
     an [IllegalArgumentException] should be thrownBy e.setRoom(room)
     an [IllegalArgumentException] should be thrownBy e.setRoom(Some(room))
   }
 
+  behavior of "moveRoom funciton for entities"
+  it should "add entity to entity set when an entity moves into the room" in {
+    val room = new Room(1, 1, 1)
+    val e = new TestEntity('a', true)
+    e.moveRoom(room)
+    room.containsEntity(e) shouldBe true
+  }
+
+  it should "remove entity from entity set when entity leaves the room" in {
+    val room = new Room(1, 1, 1)
+    val e = new TestEntity('a', true)
+    e.moveRoom(room)
+    e.moveRoom(None)
+    room.containsEntity(e) shouldBe false
+  }
+
+  it should "update the room variable when moving between rooms" in {
+    val room1 = new Room(1, 1, 1)
+    val room2 = new Room(1, 1, 1)
+    val e = new TestEntity('a', true)
+    e.moveRoom(room1)
+    e.moveRoom(room2)
+    e.getRoom() shouldBe Some(room2)
+  }
+
+  it should "reset the room variable when moving out of room" in {
+    val room = new Room(1, 1, 1)
+    val e = new TestEntity('a', true)
+    e.moveRoom(room)
+    e.moveRoom(None)
+    e.getRoom() shouldBe None
+  }
 }
 
 // displaySelf
 //
 // rooms initialized entities belong to that room
 // rooms initialized without entities given
-// move entities to other room directly updates room

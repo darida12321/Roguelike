@@ -41,6 +41,10 @@ class Room(x: Int, y: Int, val id: Int, private var es: Set[Entity]) {
   for (e <- es) {
     //e.getRoom() = Some(this)
   }
+  
+  def this(x: Int, y: Int, id: Int) = {
+    this(x, y, id, Set.empty)
+  }
 
   def roomAt(d: Direction): Option[Room] = connections(d.index)
   def connect(d: Direction, r: Room): Unit = {
