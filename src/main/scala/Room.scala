@@ -39,7 +39,10 @@ class Room(x: Int, y: Int, val id: Int, private var es: Set[Entity]) {
     connections(i) = None
   }
   for (e <- es) {
-    //e.getRoom() = Some(this)
+    if(e.getRoom() != None){
+      throw new IllegalArgumentException(s"Entity $e is already in another room")
+    }
+    e.setRoom(this)
   }
   
   def this(x: Int, y: Int, id: Int) = {

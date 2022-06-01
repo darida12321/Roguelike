@@ -163,6 +163,28 @@ class RoomTest extends AnyFlatSpec {
     e.moveRoom(None)
     e.getRoom() shouldBe None
   }
+
+  behavior of "Initializing with entities"
+  it should "contain the initialized entities" in {
+    val e1 = new TestEntity('a', true)
+    val e2 = new TestEntity('b', true)
+    val room = new Room(1, 1, 1, Set(e1, e2))
+    room.getEntities() shouldBe Set(e1, e2)
+  }
+
+  it should "set the room of entities to itself" in {
+    val e1 = new TestEntity('a', true)
+    val e2 = new TestEntity('b', true)
+    val room = new Room(1, 1, 1, Set(e1, e2))
+    e1.getRoom() shouldBe Some(room)
+    e2.getRoom() shouldBe Some(room)
+  }
+
+  it should "throw an error when an entity is already in another room" in {
+    val e = new TestEntity('a', true)
+    val room1 = new Room(1, 1, 1, Set(e))
+    an [IllegalArgumentException] should be thrownBy new Room(1, 1, 2, Set(e))
+  }
 }
 
 // displaySelf
