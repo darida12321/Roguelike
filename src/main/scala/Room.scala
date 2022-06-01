@@ -49,17 +49,24 @@ class Room(x: Int, y: Int, val id: Int, private var es: Set[Entity]) {
   }
 
   def addEntity(e: Entity): Unit = { 
+    if(es.contains(e)){
+      throw new IllegalArgumentException(s"Entity $e was already inside room.")
+    }
+    if(e.room != None){
+      throw new IllegalArgumentException(s"Entity $e is already in room ${e.room.get}")
+    }
     e.room = Some(this)
     es += e
   }
-  def removeEntity(e: Entity): Boolean = {
-    if(es.contains(e)){
-      e.room = None
-      es -= e
-      true
-    } else { false }
+  def removeEntity(e: Entity): Unit = {
+    if(!es.contains(e)){
+      throw new IllegalArgumentException(s"Entity $e was not inside room $this when removed")
+    }
+    e.room = None
+    es -= e
   }
   def containsEntity(e: Entity): Boolean = es.contains(e)
+  def getEntities(): Set[Entity] = es
 
   // TODO maybe move this outside?
   def displaySelf(img: Image): Unit = {
