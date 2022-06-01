@@ -2,7 +2,14 @@ trait Entity {
   val char: Char 
   val colour: String
   val visible: Boolean
-  var room: Option[Room] = None
+  protected var room: Option[Room] = None
+  def getRoom(): Option[Room] = room
+  def setRoom(r: Option[Room]): Unit = { 
+    if(r.isDefined && !r.get.containsEntity(this)){
+      throw new IllegalArgumentException(s"Changing the room variable to a room that doesn't contain this entity is illegal")
+    }
+    room = r
+  }
 }
 
 class TestEntity(val char: Char, val colour: String) extends Entity {

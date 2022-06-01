@@ -39,7 +39,7 @@ class Room(x: Int, y: Int, val id: Int, private var es: Set[Entity]) {
     connections(i) = None
   }
   for (e <- es) {
-    e.room = Some(this)
+    //e.getRoom() = Some(this)
   }
 
   def roomAt(d: Direction): Option[Room] = connections(d.index)
@@ -52,18 +52,18 @@ class Room(x: Int, y: Int, val id: Int, private var es: Set[Entity]) {
     if(es.contains(e)){
       throw new IllegalArgumentException(s"Entity $e was already inside room.")
     }
-    if(e.room != None){
-      throw new IllegalArgumentException(s"Entity $e is already in room ${e.room.get}")
+    if(e.getRoom() != None){
+      throw new IllegalArgumentException(s"Entity $e is already in room ${e.getRoom().get}")
     }
-    e.room = Some(this)
     es += e
+    e.setRoom(Some(this))
   }
   def removeEntity(e: Entity): Unit = {
     if(!es.contains(e)){
       throw new IllegalArgumentException(s"Entity $e was not inside room $this when removed")
     }
-    e.room = None
     es -= e
+    e.setRoom(None)
   }
   def containsEntity(e: Entity): Boolean = es.contains(e)
   def getEntities(): Set[Entity] = es
