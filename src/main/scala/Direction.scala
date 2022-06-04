@@ -1,6 +1,10 @@
+
+// A data structure for using directions more conveniently
 sealed trait Direction {
   val index: Int
 }
+
+// The direction object, and some functions on directions
 object Direction {
   def fromInt(i: Int): Direction = i match {
     case 0 => Right
@@ -14,6 +18,7 @@ object Direction {
   def rotateLeft(d: Direction): Direction = fromInt((d.index + 1) % 4)
 }
 
+// Four basic directions in default objects
 object Right extends Direction {
   override val index = 0
 }

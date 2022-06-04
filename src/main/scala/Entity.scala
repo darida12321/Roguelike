@@ -1,9 +1,12 @@
+
+// An entity trait having a character to display, and a room where it belongs
 trait Entity {
   val char: Char 
   val colour: String
   val visible: Boolean
 
-  protected var room: Option[Room] = None
+  // A room variable updated to its current room
+  private var room: Option[Room] = None
   def getRoom(): Option[Room] = room
   def setRoom(r: Option[Room]): Unit = { 
     if(r.isDefined && !r.get.containsEntity(this)){
@@ -15,6 +18,7 @@ trait Entity {
     setRoom(Some(r))
   }
 
+  // Move rooms while updating the entities in those rooms
   def moveRoom(r: Option[Room]): Unit = {
     if(room.isDefined){
       room.get.removeEntity(this)
@@ -29,13 +33,7 @@ trait Entity {
   }
 }
 
-class TestEntity(val char: Char, val colour: String) extends Entity {
-  val visible = true
-}
-class TestEntity2(val char: Char, val colour: String) extends Entity {
-  val visible = false 
-}
-
+// A test robot entity
 class Robot() extends Entity {
   val char = 'A'
   val colour = Console.GREEN

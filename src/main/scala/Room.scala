@@ -1,30 +1,7 @@
 import scala.collection.mutable
 import scala.collection.Set
 
-class RoomMap(val w: Int, val h: Int) {
-  var rooms = Set.empty[Room]
-  
-  def addRoom(room: Room) = {
-    rooms += room
-  }
-  def getRoom(id: Int) = {
-    val rs:Set[Room] = rooms.filter(r => r.id == id)
-    if(rs.size == 0){
-      None
-    } else {
-      rs.head
-    }
-  }
-
-  def display(): Unit = {
-    val image = new Image(w, h)
-    for(room <- rooms){
-      room.displaySelf(image)
-    }
-    image.display()
-  }
-}
-
+// Some default values for the room
 object Room {
   val WIDTH = 5
   val HEIGHT = 2
@@ -33,11 +10,14 @@ object Room {
   var sprite: Sprite = new SingleColourSprite(str)
 }
 
+// A Room implementation with a set of entities, and connections
 class Room(x: Int, y: Int, val id: Int, private var es: Set[Entity]) {
+  // Set up its connections
   private val connections = Array.ofDim[Option[Room]](4)
   for (i <- Right.index to Down.index) {
     connections(i) = None
   }
+  // Set up the entity list
   for (e <- es) {
     if(e.getRoom() != None){
       throw new IllegalArgumentException(s"Entity $e is already in another room")
@@ -49,12 +29,14 @@ class Room(x: Int, y: Int, val id: Int, private var es: Set[Entity]) {
     this(x, y, id, Set.empty)
   }
 
+  // Connect to other rooms
   def roomAt(d: Direction): Option[Room] = connections(d.index)
   def connect(d: Direction, r: Room): Unit = {
     this.connections(d.index) = Some(r)
     r.connections(Direction.invert(d).index) = Some(this)
   }
 
+  // Add and remove entities
   def addEntity(e: Entity): Unit = { 
     if(es.contains(e)){
       throw new IllegalArgumentException(s"Entity $e was already inside room.")
@@ -75,7 +57,7 @@ class Room(x: Int, y: Int, val id: Int, private var es: Set[Entity]) {
   def containsEntity(e: Entity): Boolean = es.contains(e)
   def getEntities(): Set[Entity] = es
 
-  // TODO maybe move this outside?
+  // Display itself on an image
   def displaySelf(img: Image): Unit = {
     val rx: Int = 1 + x * (Room.WIDTH + 5) 
     val ry: Int = 0 + y * (Room.HEIGHT + 3)

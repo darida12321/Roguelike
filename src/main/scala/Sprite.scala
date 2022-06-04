@@ -79,6 +79,7 @@ class BoxSprite(val width: Int, val height: Int, chars: String, col: String) ext
     if (x == width-1 && y == height-1) { c = chars.charAt(3) } // BR
     c
   }
+  
   // Return the default colour
   def getColour(x: Int, y: Int): String = {
     if (!pointInside(x, y)) {

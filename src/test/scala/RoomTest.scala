@@ -187,7 +187,5 @@ class RoomTest extends AnyFlatSpec {
   }
 }
 
-// displaySelf
-//
-// rooms initialized entities belong to that room
-// rooms initialized without entities given
+// TODO: Test for display self
+// TODO: invisible rooms (Fog of war)
